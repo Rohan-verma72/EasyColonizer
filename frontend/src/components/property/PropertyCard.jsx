@@ -13,6 +13,7 @@ import {
   Package,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import EnquiryModal from "../modals/EnquiryModal";
 import { whatsappLink } from "../../config/site";
 import { getPropertyImage, getSavedWishlistIds, saveWishlistIds } from "../../utils/propertyData";
