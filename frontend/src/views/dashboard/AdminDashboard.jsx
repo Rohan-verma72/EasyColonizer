@@ -94,7 +94,7 @@ const AdminDashboard = () => {
       navigate("/");
       return;
     }
-    // ADD TOKEN TO API
+    
     API.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     
     fetchData();
@@ -499,7 +499,7 @@ const AdminDashboard = () => {
                               : v.status === "Cancelled"
                               ? "danger"
                               : v.status === "Missed"
-                              ? "secondary"
+                              ? "info"
                               : "warning"
                           }
                         >

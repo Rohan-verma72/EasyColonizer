@@ -8,7 +8,6 @@ router.get("/", async (req, res) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    // Auto-update past visits to 'Missed' if still Pending or Confirmed
     await SiteVisit.updateMany(
       {
         visitDate: { $lt: today },
