@@ -230,38 +230,44 @@ router.post("/:id/book", async (req, res) => {
     }
 
     console.log(`Attempting to book unit ${id} for ${name}`);
-    const item = await Inventory.findById(id);
+    
+    // ATOMIC UPDATE: Only update if status is 'Available'
+    const item = await Inventory.findOneAndUpdate(
+      { _id: id, status: "Available" },
+      {
+        $set: {
+          status: "Booked",
+          customerName: name,
+          customerPhone: phone,
+          customerEmail: email || "",
+          bookingPrice: Number(bookingAmount) || 0,
+          bookingDate: new Date(),
+          notes: notes || `Online booking initiated using ${paymentMethod}`,
+          bookedBy: (bookedBy && mongoose.Types.ObjectId.isValid(bookedBy)) ? bookedBy : null
+        }
+      },
+      { new: true }
+    );
 
     if (!item) {
-      console.error(`Unit ${id} not found`);
-      return res.status(404).json({
-        success: false,
-        message: "Inventory item not found",
-      });
-    }
-
-    if (item.status !== "Available") {
-      console.warn(`Unit ${id} is already ${item.status}`);
+      console.log(`Booking failed for unit ${id}: Unit not found or not available`);
+      // If no item found, it's either non-existent or ALREADY BOOKED/SOLD
+      const checkExists = await Inventory.findById(id);
+      if (!checkExists) {
+        console.log(`Unit ${id} truly not found`);
+        return res.status(404).json({
+          success: false,
+          message: "Inventory item not found",
+        });
+      }
+      console.log(`Unit ${id} exists but status is ${checkExists.status}`);
       return res.status(409).json({
         success: false,
-        message: `This unit is already ${item.status.toLowerCase()}`,
+        message: `This unit is already ${checkExists.status.toLowerCase()}`,
       });
     }
 
-    item.status = "Booked";
-    item.customerName = name;
-    item.customerPhone = phone;
-    item.customerEmail = email || "";
-    item.bookingPrice = Number(bookingAmount) || item.price || 0;
-    item.bookingDate = new Date();
-    item.notes =
-      notes || `Online booking initiated using ${paymentMethod}`;
-
-    if (bookedBy && mongoose.Types.ObjectId.isValid(bookedBy)) {
-      item.bookedBy = bookedBy;
-    }
-
-    const savedItem = await item.save();
+    console.log(`Booking successful for unit ${id}`);
 
     try {
       await Lead.create({
@@ -283,7 +289,7 @@ router.post("/:id/book", async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Unit booked successfully",
-      data: savedItem,
+      data: item,
     });
   } catch (err) {
     console.error("BOOK INVENTORY ERROR:", err);

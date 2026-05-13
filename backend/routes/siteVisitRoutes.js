@@ -5,6 +5,18 @@ const Lead = require("../models/Lead");
 
 router.get("/", async (req, res) => {
   try {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // Auto-update past visits to 'Missed' if still Pending or Confirmed
+    await SiteVisit.updateMany(
+      {
+        visitDate: { $lt: today },
+        status: { $in: ["Pending", "Confirmed"] },
+      },
+      { $set: { status: "Missed" } }
+    );
+
     const visits = await SiteVisit.find()
       .sort({ createdAt: -1 })
       .populate("propertyId", "title location");

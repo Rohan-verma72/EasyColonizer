@@ -164,6 +164,22 @@ const AdminDashboard = () => {
     navigate("/");
   };
 
+  const updateVisitStatus = async (id, newStatus) => {
+    try {
+      if (String(id).startsWith("demo-")) {
+        setSiteVisits((prev) =>
+          prev.map((v) => (v._id === id ? { ...v, status: newStatus } : v))
+        );
+        return;
+      }
+      await API.put(`/api/site-visits/${id}`, { status: newStatus });
+      fetchData();
+    } catch (err) {
+      console.error("Update Status Error:", err);
+      alert("Failed to update status");
+    }
+  };
+
   const filteredUnits = Array.isArray(inventoryList)
     ? inventoryList.filter(
         (u) =>
@@ -458,6 +474,7 @@ const AdminDashboard = () => {
                     <th>Date</th>
                     <th>Time</th>
                     <th>Status</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -481,11 +498,28 @@ const AdminDashboard = () => {
                               ? "primary"
                               : v.status === "Cancelled"
                               ? "danger"
+                              : v.status === "Missed"
+                              ? "secondary"
                               : "warning"
                           }
                         >
                           {v.status}
                         </Badge>
+                      </td>
+                      <td>
+                        <Form.Select
+                          size="sm"
+                          value={v.status}
+                          onChange={(e) => updateVisitStatus(v._id, e.target.value)}
+                          className="border-0 shadow-sm"
+                          style={{ width: "130px", fontSize: "0.85rem" }}
+                        >
+                          <option value="Pending">Pending</option>
+                          <option value="Confirmed">Confirmed</option>
+                          <option value="Completed">Completed</option>
+                          <option value="Cancelled">Cancelled</option>
+                          <option value="Missed">Missed</option>
+                        </Form.Select>
                       </td>
                     </tr>
                   ))}
