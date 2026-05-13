@@ -1,0 +1,81 @@
+
+.marketing-trust-section {
+  background: #f8f9fa;
+  padding: 70px 0;
+}
+
+.trust-card {
+  background: white;
+  border-radius: 14px;
+  padding: 28px 22px;
+  border: 1px solid #eeeeee;
+  transition: all 0.3s ease;
+  height: 100%;
+  text-align: center;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+
+.trust-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.10);
+  border-color: rgba(47,184,170,0.28);
+}
+
+.trust-icon-wrap {
+  width: 60px;
+  height: 60px;
+  border-radius: 14px;
+  background: #e8fbf8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  color: #0f766e;
+  transition: all 0.3s ease;
+}
+
+.trust-card:hover .trust-icon-wrap {
+  background: #2fb8aa;
+  color: white;
+}
+
+.trust-title {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #143d3b;
+  margin-bottom: 8px;
+  font-family: var(--font-heading);
+}
+
+.trust-desc {
+  color: #6b7280;
+  font-size: 0.87rem;
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* CTA Banner — dark navy, NOT orange */
+.trust-cta-banner {
+  background:
+    radial-gradient(circle at top right, rgba(158, 231, 221, 0.18), transparent 18rem),
+    linear-gradient(135deg, #0b4f49, #123f3c);
+  border-radius: 20px;
+  padding: 48px 40px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.trust-cta-banner::before {
+  content: "";
+  position: absolute;
+  top: -50px; right: -50px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: rgba(158,231,221,0.12);
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .trust-cta-banner { padding: 32px 20px; }
+}

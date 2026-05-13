@@ -1,0 +1,27 @@
+
+
+@import "./variables.css";
+@import "./base.css";
+@import "./utilities.css";
+
+@import "./components/layout/Navbar.css";
+@import "./components/layout/Footer.css";
+
+@import "./components/home/Hero.css";
+@import "./components/home/FeaturedProperties.css";
+@import "./components/home/TrendingProjects.css";
+@import "./components/home/Stats.css";
+@import "./components/home/Testimonials.css";
+@import "./components/home/MarketingTrust.css";
+@import "./components/home/BankPartners.css";
+@import "./components/home/MarketTrends.css";
+@import "./components/home/ExpertAdvice.css";
+@import "./components/home/ChatBot.css";
+
+@import "./components/property/PropertyCard.css";
+@import "./components/property/ComparisonTool.css";
+
+@import "./components/modals/AuthModal.css";
+
+@import "./components/Contact.css";
+@import "./components/views/Projects.css";

@@ -1,0 +1,62 @@
+
+
+.expert-advice-section {
+  background: var(--white);
+  padding: 80px 0;
+}
+
+.expert-card {
+  background: var(--light);
+  border-radius: 20px;
+  padding: 32px 24px;
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+  text-align: center;
+  height: 100%;
+}
+
+.expert-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(201, 168, 76, 0.3);
+  background: white;
+}
+
+.expert-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--accent);
+  margin-bottom: 16px;
+}
+
+.expert-name {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--dark);
+  margin-bottom: 4px;
+  font-family: var(--font-heading);
+}
+
+.expert-role {
+  color: var(--secondary);
+  font-size: 0.85rem;
+  margin-bottom: 16px;
+}
+
+.expert-btn-call {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark)) !important;
+  border: none !important;
+  border-radius: 999px !important;
+  font-weight: 600 !important;
+  font-size: 0.88rem !important;
+}
+
+.expert-btn-whatsapp {
+  background: #25D366 !important;
+  border: none !important;
+  border-radius: 999px !important;
+  font-weight: 600 !important;
+  font-size: 0.88rem !important;
+}

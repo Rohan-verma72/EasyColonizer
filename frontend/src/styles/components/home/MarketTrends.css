@@ -1,0 +1,50 @@
+
+
+.market-trends-section {
+  background: var(--light);
+  padding: 70px 0;
+}
+
+.trend-card {
+  background: white;
+  border-radius: 18px;
+  padding: 28px;
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+  height: 100%;
+}
+
+.trend-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(201, 168, 76, 0.3);
+}
+
+.trend-location {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--dark);
+  margin-bottom: 4px;
+  font-family: var(--font-heading);
+}
+
+.trend-growth {
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: var(--success);
+}
+
+.trend-price {
+  color: var(--secondary);
+  font-size: 0.88rem;
+}
+
+.trend-chart-line {
+  stroke: var(--accent);
+  stroke-width: 2.5;
+  fill: none;
+}
+
+.trend-chart-area {
+  fill: rgba(201, 168, 76, 0.08);
+}

@@ -1,0 +1,42 @@
+
+.stats-section {
+  background:
+    radial-gradient(circle at top left, rgba(158, 231, 221, 0.14), transparent 20rem),
+    linear-gradient(135deg, #0b4f49, #123f3c);
+  padding: 60px 0;
+}
+
+.stat-card {
+  text-align: center;
+  padding: 28px 16px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  background: rgba(255,255,255,0.09);
+  transform: translateY(-4px);
+  border-color: rgba(158,231,221,0.3);
+}
+
+.stat-number {
+  font-size: 2.6rem;
+  font-weight: 800;
+  color: #9ee7dd;
+  font-family: var(--font-heading);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.stat-label {
+  color: rgba(255,255,255,0.70);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.stat-icon {
+  color: rgba(255,255,255,0.30);
+  margin-bottom: 12px;
+}

@@ -1,0 +1,36 @@
+
+
+.bank-partners-section {
+  background: var(--white);
+  padding: 40px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.bank-partner-card {
+  background: var(--light);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 16px 28px;
+  font-weight: 700;
+  color: var(--dark);
+  font-size: 0.95rem;
+  transition: all 0.25s ease;
+  text-align: center;
+  letter-spacing: 0.3px;
+}
+
+.bank-partner-card:hover {
+  background: var(--primary-soft);
+  border-color: rgba(26, 39, 68, 0.2);
+  color: var(--primary);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-sm);
+}
+
+.bank-partners-label {
+  color: var(--secondary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
