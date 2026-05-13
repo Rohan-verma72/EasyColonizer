@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Badge, Button } from "react-bootstrap";
 import {
   MapPin,
@@ -49,22 +49,49 @@ const PropertyCard = ({ property }) => {
     };
   }, [property._id]);
 
-  const toggleWishlist = (e) => {
+  const toggleWishlist = async (e) => {
     e.preventDefault();
     e.stopPropagation();
 
+    const userId = localStorage.getItem("userId");
+    const token = localStorage.getItem("token");
+    const isRealUser = userId && token && !token.startsWith("local-token-");
+
     let wishlist = getSavedWishlistIds();
+    const alreadyInWishlist = wishlist.includes(property._id);
 
-    if (wishlist.includes(property._id)) {
-      wishlist = wishlist.filter(
-        (id) => id !== property._id
-      );
-    } else {
-      wishlist.push(property._id);
+    try {
+      if (alreadyInWishlist) {
+        if (isRealUser) {
+          await axios.delete(`/api/users/${userId}/wishlist/${property._id}`);
+        }
+        wishlist = wishlist.filter((id) => id !== property._id);
+      } else {
+        if (isRealUser) {
+          await axios.post(`/api/users/${userId}/wishlist`, {
+            propertyId: property._id,
+          });
+        }
+        wishlist.push(property._id);
+      }
+
+      saveWishlistIds(wishlist);
+      setIsWishlisted(wishlist.includes(property._id));
+      
+      // Dispatch event to update other components
+      window.dispatchEvent(new Event("wishlistUpdated"));
+    } catch (err) {
+      console.error("Wishlist Sync Error:", err);
+      // Fallback to local only if server fails
+      if (!alreadyInWishlist) {
+        wishlist.push(property._id);
+      } else {
+        wishlist = wishlist.filter((id) => id !== property._id);
+      }
+      saveWishlistIds(wishlist);
+      setIsWishlisted(wishlist.includes(property._id));
+      window.dispatchEvent(new Event("wishlistUpdated"));
     }
-
-    saveWishlistIds(wishlist);
-    setIsWishlisted(wishlist.includes(property._id));
   };
 
   const propertyPrice = Number(property.price) || 0;

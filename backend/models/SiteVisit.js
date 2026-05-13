@@ -28,6 +28,7 @@ const siteVisitSchema = new mongoose.Schema(
       type: String,
       trim: true,
       lowercase: true,
+      set: v => (v === "" ? undefined : v),
       match: [/^\S+@\S+\.\S+$/, "Enter valid email address"],
     },
 

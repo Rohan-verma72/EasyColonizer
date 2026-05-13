@@ -153,6 +153,7 @@ const propertySchema = new mongoose.Schema(
     furnishing: {
       type: String,
       enum: ["Unfurnished", "Semi Furnished", "Fully Furnished"],
+      set: v => v === "" ? undefined : v
     },
 
     facing: {
@@ -167,6 +168,7 @@ const propertySchema = new mongoose.Schema(
         "South-East",
         "South-West",
       ],
+      set: v => v === "" ? undefined : v
     },
 
     totalFloors: {
@@ -401,6 +403,11 @@ propertySchema.index({
 propertySchema.index({
   isFeatured: 1,
   isTrending: 1,
+});
+
+propertySchema.pre("validate", function () {
+  if (this.facing === "") this.facing = undefined;
+  if (this.furnishing === "") this.furnishing = undefined;
 });
 
 propertySchema.pre("save", async function () {

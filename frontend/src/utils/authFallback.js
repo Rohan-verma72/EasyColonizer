@@ -136,6 +136,10 @@ export const persistSession = (data) => {
   localStorage.setItem("userRole", role);
   localStorage.setItem("userId", userId);
 
+  if (data.user?.wishlist) {
+    localStorage.setItem("wishlist", JSON.stringify(data.user.wishlist));
+  }
+
   if (role === "admin" || role === "manager") {
     localStorage.setItem("adminToken", token);
     localStorage.setItem("adminUser", username);

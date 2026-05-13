@@ -1,7 +1,9 @@
-node_modules
+node_modules/
+.next/
+dist/
+build/
 .env
-.next
-dist
-build
-.DS_Store
+error.log
 *.log
+.vercel
+package-lock.json

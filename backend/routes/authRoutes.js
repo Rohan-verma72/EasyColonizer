@@ -11,6 +11,7 @@ const normalizeUser = (user) => ({
   email: user.email || "",
   phone: user.phone || "",
   role: user.role,
+  wishlist: user.wishlist || [],
 });
 
 

@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Container,
   Row,
@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 
 import axios from "axios";
-import { demoProperties } from "../../data/demoProperties";
+import { demoProperties } from "../../utils/demoData";
 import {
   getPropertyImage,
   normalizePropertiesResponse,
@@ -41,6 +41,28 @@ const Wishlist = () => {
     try {
       setLoading(true);
 
+      const userId = localStorage.getItem("userId");
+      const token = localStorage.getItem("token");
+      const isRealUser = userId && token && !token.startsWith("local-token-");
+
+      if (isRealUser) {
+        try {
+          const res = await axios.get(`/api/users/${userId}/wishlist`);
+          const serverWishlist = Array.isArray(res.data) ? res.data : [];
+          setWishlistItems(serverWishlist);
+          
+          // Optional: Sync server wishlist back to localStorage
+          const serverIds = serverWishlist.map(p => p._id);
+          localStorage.setItem("wishlist", JSON.stringify(serverIds));
+          
+          setLoading(false);
+          return;
+        } catch (serverErr) {
+          console.error("Server Wishlist Fetch Error:", serverErr);
+        }
+      }
+
+      // Fallback to localStorage logic
       const savedWishlist =
         JSON.parse(localStorage.getItem("wishlist")) || [];
 
@@ -96,30 +118,43 @@ const Wishlist = () => {
   }, []);
 
  
-  const removeWishlist = (id) => {
-    const current =
-      JSON.parse(localStorage.getItem("wishlist")) || [];
+  const removeWishlist = async (id) => {
+    try {
+      const userId = localStorage.getItem("userId");
+      const token = localStorage.getItem("token");
+      const isRealUser = userId && token && !token.startsWith("local-token-");
 
-    const updated = current.filter((item) => {
-      if (typeof item === "object") {
-        return item._id !== id;
+      if (isRealUser) {
+        await axios.delete(`/api/users/${userId}/wishlist/${id}`);
       }
 
-      return item !== id;
-    });
+      const current =
+        JSON.parse(localStorage.getItem("wishlist")) || [];
 
-    localStorage.setItem(
-      "wishlist",
-      JSON.stringify(updated),
-    );
+      const updated = current.filter((item) => {
+        if (typeof item === "object") {
+          return item._id !== id;
+        }
 
-    setWishlistItems((prev) =>
-      prev.filter((p) => p._id !== id),
-    );
+        return item !== id;
+      });
 
-    window.dispatchEvent(
-      new Event("wishlistUpdated"),
-    );
+      localStorage.setItem(
+        "wishlist",
+        JSON.stringify(updated),
+      );
+
+      setWishlistItems((prev) =>
+        prev.filter((p) => p._id !== id),
+      );
+
+      window.dispatchEvent(
+        new Event("wishlistUpdated"),
+      );
+    } catch (err) {
+      console.error("Error removing from wishlist:", err);
+      alert("Failed to remove from wishlist. Please try again.");
+    }
   };
 
   

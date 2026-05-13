@@ -56,6 +56,7 @@ const inventorySchema = new mongoose.Schema(
         "South-East",
         "South-West",
       ],
+      set: v => v === "" ? undefined : v
     },
 
     roadWidth: {
@@ -76,6 +77,7 @@ const inventorySchema = new mongoose.Schema(
         "Penthouse",
         "Studio",
       ],
+      set: v => v === "" ? undefined : v
     },
 
     floor: {
@@ -178,7 +180,10 @@ inventorySchema.index({
   price: 1,
 });
 
-inventorySchema.pre("save", async function () {
+inventorySchema.pre("validate", async function () {
+  if (this.unitType === "") this.unitType = undefined;
+  if (this.facing === "") this.facing = undefined;
+
   if (this.status === "Booked" || this.status === "Sold") {
     if (!this.bookingDate) {
       this.bookingDate = new Date();

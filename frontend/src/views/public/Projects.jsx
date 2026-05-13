@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Row,
@@ -23,7 +23,7 @@ import {
 
 import axios from "axios";
 import PropertyCard from "../../components/property/PropertyCard";
-import { demoProperties } from "../../data/demoProperties";
+import { demoProperties } from "../../utils/demoData";
 
 const Projects = () => {
   const [properties, setProperties] = useState([]);

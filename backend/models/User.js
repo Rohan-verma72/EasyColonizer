@@ -39,6 +39,7 @@ const userSchema = new mongoose.Schema(
     phone: {
       type: String,
       trim: true,
+      set: v => (v === "" ? undefined : v),
       match: [/^[0-9]{10}$/, "Please enter valid 10-digit phone number"],
     },
 
@@ -57,6 +58,13 @@ const userSchema = new mongoose.Schema(
     lastLogin: {
       type: Date,
     },
+
+    wishlist: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Property",
+      },
+    ],
   },
   {
     timestamps: true,

@@ -13,6 +13,7 @@ const leadSchema = new mongoose.Schema(
       type: String,
       trim: true,
       lowercase: true,
+      set: v => (v === "" ? undefined : v),
       match: [
         /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
         "Please enter a valid email address",

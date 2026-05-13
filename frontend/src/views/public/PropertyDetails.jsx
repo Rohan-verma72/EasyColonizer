@@ -1,4 +1,4 @@
-﻿
+
 
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -607,16 +607,19 @@ const PropertyDetails = () => {
       <style>{`
 
         .unit-box{
-          width:70px;
-          height:40px;
-          border-radius:8px;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          font-size:12px;
-          font-weight:700;
-          cursor:pointer;
-          transition:0.2s;
+          min-width: 85px;
+          height: 45px;
+          padding: 0 8px;
+          border-radius: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 11px;
+          font-weight: 700;
+          cursor: pointer;
+          transition: 0.2s;
+          white-space: nowrap;
+          text-align: center;
         }
 
         .unit-box:hover{
