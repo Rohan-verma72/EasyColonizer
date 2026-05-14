@@ -27,26 +27,31 @@ const slides = [
 const Hero = () => {
   const { tenant } = useTenant();
 
-  // Use tenant custom images if provided (filter out empty strings), else use default slides
+  // Build active slides — use tenant images if set, else default slides
   const tenantImages = (tenant?.hero?.images || []).filter(Boolean);
   const activeSlides = tenantImages.length > 0
     ? tenantImages.map((img, i) => ({ image: img, label: `Slide ${i + 1}` }))
     : slides;
 
+  // Stable key: changes whenever image URLs change (not just count)
+  const slidesKey = activeSlides.map(s => s.image).join("|");
+
   const [current, setCurrent] = useState(0);
 
+  // Reset to slide 0 whenever the image set changes
   useEffect(() => {
-    // Reset to first slide if slide count changes
     setCurrent(0);
-  }, [activeSlides.length]);
+  }, [slidesKey]);
 
+  // Restart interval whenever slides change
   useEffect(() => {
+    if (activeSlides.length <= 1) return; // no need to rotate single image
     const timer = setInterval(
       () => setCurrent((prev) => (prev + 1) % activeSlides.length),
       5500
     );
     return () => clearInterval(timer);
-  }, [activeSlides.length]);
+  }, [slidesKey]);
 
   const heroData = tenant?.hero || {
     title: "Find Your <br /> <span class='hero-title-accent'>Dream Property</span> <br /> in Bhopal",
