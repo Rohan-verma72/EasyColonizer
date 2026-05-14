@@ -25,16 +25,28 @@ const slides = [
 ];
 
 const Hero = () => {
-  const [current, setCurrent] = useState(0);
   const { tenant } = useTenant();
+
+  // Use tenant custom images if provided (filter out empty strings), else use default slides
+  const tenantImages = (tenant?.hero?.images || []).filter(Boolean);
+  const activeSlides = tenantImages.length > 0
+    ? tenantImages.map((img, i) => ({ image: img, label: `Slide ${i + 1}` }))
+    : slides;
+
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    // Reset to first slide if slide count changes
+    setCurrent(0);
+  }, [activeSlides.length]);
 
   useEffect(() => {
     const timer = setInterval(
-      () => setCurrent((prev) => (prev + 1) % slides.length),
+      () => setCurrent((prev) => (prev + 1) % activeSlides.length),
       5500
     );
     return () => clearInterval(timer);
-  }, []);
+  }, [activeSlides.length]);
 
   const heroData = tenant?.hero || {
     title: "Find Your <br /> <span class='hero-title-accent'>Dream Property</span> <br /> in Bhopal",
@@ -44,9 +56,9 @@ const Hero = () => {
 
   return (
     <section className="hero-section" aria-label="Hero">
-      {/* Slides */}
+      {/* Dynamic Slider */}
       <div className="hero-slider">
-        {slides.map((slide, i) => (
+        {activeSlides.map((slide, i) => (
           <div
             key={i}
             className={`hero-slide ${i === current ? "active" : ""}`}
@@ -112,21 +124,24 @@ const Hero = () => {
       </Container>
 
       {/* Slide indicators */}
-      <div className="hero-indicators">
-        {slides.map((slide, i) => (
-          <button
-            key={i}
-            className={`hero-dot ${i === current ? "active" : ""}`}
-            onClick={() => setCurrent(i)}
-            aria-label={slide.label}
-          />
-        ))}
-      </div>
+      {activeSlides.length > 1 && (
+        <>
+          <div className="hero-indicators">
+            {activeSlides.map((slide, i) => (
+              <button
+                key={i}
+                className={`hero-dot ${i === current ? "active" : ""}`}
+                onClick={() => setCurrent(i)}
+                aria-label={slide.label}
+              />
+            ))}
+          </div>
 
-      {/* Current slide label */}
-      <div className="hero-slide-label">
-        <span>{slides[current].label}</span>
-      </div>
+          <div className="hero-slide-label">
+            <span>{activeSlides[current]?.label}</span>
+          </div>
+        </>
+      )}
     </section>
   );
 };

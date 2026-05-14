@@ -89,7 +89,8 @@ const tenantSchema = new mongoose.Schema(
     hero: {
       title: { type: String, default: "Find Your Dream Property in Your City" },
       subtitle: { type: String, default: "Verified plots, villas, apartments & commercial spaces with complete transparency." },
-      location: { type: String, default: "Your City, State" }
+      location: { type: String, default: "Your City, State" },
+      images: [{ type: String }]
     },
     active: {
       type: Boolean,

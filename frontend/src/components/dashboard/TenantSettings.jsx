@@ -33,7 +33,8 @@ const TenantSettings = () => {
     hero: {
       title: "Find Your Dream Property",
       subtitle: "Verified plots, villas, apartments...",
-      location: "Bhopal, Madhya Pradesh"
+      location: "Bhopal, Madhya Pradesh",
+      images: [""]
     },
     settings: {
       enableBookings: true,
@@ -55,7 +56,7 @@ const TenantSettings = () => {
     },
     about: {
       title: "About Our Company",
-      content: "We are leaders in real estate...",
+      content: "We are leaders in real estate experts with over 12 years of experience.",
       image: ""
     }
   });
@@ -85,7 +86,8 @@ const TenantSettings = () => {
         hero: {
           title: tenant.hero?.title || "Find Your Dream Property",
           subtitle: tenant.hero?.subtitle || "Verified plots, villas, apartments...",
-          location: tenant.hero?.location || "Bhopal, Madhya Pradesh"
+          location: tenant.hero?.location || "Bhopal, Madhya Pradesh",
+          images: (tenant.hero?.images?.length ? tenant.hero.images : [""])
         },
         settings: {
           enableBookings: tenant.settings?.enableBookings !== false,
@@ -303,50 +305,103 @@ const TenantSettings = () => {
                         ...formData,
                         hero: { ...formData.hero, location: e.target.value }
                       })}
-                      placeholder="e.g. Bhopal, Madhya Pradesh"
-                      className="rounded-end-3 border-light bg-light"
+                      placeholder="e.g. Bhopal, MP"
+                      className="rounded-3 border-start-0 border-light bg-light"
                     />
                   </div>
+                </Form.Group>
+              </Col>
+              <Col md={12}>
+                <Form.Group>
+                  <Form.Label className="small fw-bold text-secondary d-flex align-items-center justify-content-between">
+                    <span>Hero Slider Images <span className="text-muted fw-normal">({formData.hero.images.length}/5)</span></span>
+                    {formData.hero.images.length < 5 && (
+                      <Button
+                        size="sm"
+                        variant="outline-primary"
+                        className="rounded-pill px-3"
+                        onClick={() => setFormData({
+                          ...formData,
+                          hero: { ...formData.hero, images: [...formData.hero.images, ""] }
+                        })}
+                      >
+                        + Add Image
+                      </Button>
+                    )}
+                  </Form.Label>
+                  <div className="d-flex flex-column gap-3 mt-2">
+                    {formData.hero.images.map((img, idx) => (
+                      <div key={idx}>
+                        <div className="d-flex gap-2 align-items-center">
+                          <div className="fw-bold text-muted" style={{ minWidth: 24 }}>#{idx + 1}</div>
+                          <Form.Control
+                            type="text"
+                            value={img}
+                            onChange={(e) => {
+                              const updated = [...formData.hero.images];
+                              updated[idx] = e.target.value;
+                              setFormData({ ...formData, hero: { ...formData.hero, images: updated } });
+                            }}
+                            placeholder="https://images.unsplash.com/photo-..."
+                            className="rounded-3 border-light bg-light"
+                          />
+                          {formData.hero.images.length > 1 && (
+                            <Button
+                              size="sm"
+                              variant="outline-danger"
+                              className="rounded-circle px-2"
+                              onClick={() => {
+                                const updated = formData.hero.images.filter((_, i) => i !== idx);
+                                setFormData({ ...formData, hero: { ...formData.hero, images: updated } });
+                              }}
+                            >
+                              ✕
+                            </Button>
+                          )}
+                        </div>
+                        {img && (
+                          <div className="mt-2 ms-4">
+                            <img
+                              src={img}
+                              alt={`preview-${idx}`}
+                              className="rounded-3 shadow-sm"
+                              style={{ width: '100%', maxHeight: '120px', objectFit: 'cover' }}
+                              onError={(e) => { e.target.style.display = 'none'; }}
+                              onLoad={(e) => { e.target.style.display = 'block'; }}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                  <Form.Text className="text-muted">Aap 1 se 5 tak images add kar sakte hain. High-quality landscape (1920x1080) best hoti hain.</Form.Text>
                 </Form.Group>
               </Col>
             </Row>
           </Card>
         )}
 
-        {/* TAB 2: LAYOUT */}
+        {/* TAB: LAYOUT */}
         {activeTab === "layout" && (
           <Card className="border-0 shadow-sm rounded-4 p-4">
-            <h5 className="fw-bold mb-4 text-primary">Homepage Sections Visibility</h5>
+            <h5 className="fw-bold mb-4 text-primary">Homepage Section Visibility</h5>
             <Row className="g-3">
-              {[
-                { id: "showHero", label: "Hero Banner" },
-                { id: "showBankPartners", label: "Bank Partners" },
-                { id: "showMarketTrends", label: "Market Trends" },
-                { id: "showFeatured", label: "Featured Properties" },
-                { id: "showMarketingTrust", label: "Trust Markers" },
-                { id: "showExpertAdvice", label: "Expert Advice Form" },
-                { id: "showTrending", label: "Trending Projects" },
-                { id: "showAdvancedTools", label: "Advanced Tools" },
-                { id: "showRecentlyViewed", label: "Recently Viewed" },
-                { id: "showStats", label: "Business Stats" },
-                { id: "showTestimonials", label: "Testimonials" },
-                { id: "showFooter", label: "Footer Section" },
-              ].map((section) => (
-                <Col md={6} lg={4} key={section.id}>
-                  <div className="p-3 border rounded-3 d-flex align-items-center justify-content-between bg-light bg-opacity-50 hover-shadow-sm transition-all">
-                    <span className="small fw-bold">{section.label}</span>
-                    <Form.Check
-                      type="switch"
-                      checked={!!formData.settings.layout[section.id]}
-                      onChange={(e) => setFormData({
-                        ...formData,
-                        settings: {
-                          ...formData.settings,
-                          layout: { ...formData.settings.layout, [section.id]: e.target.checked }
-                        }
-                      })}
-                    />
-                  </div>
+              {Object.keys(formData.settings.layout).filter(k => k.startsWith('show')).map((key) => (
+                <Col md={4} key={key}>
+                  <Form.Check
+                    type="switch"
+                    id={key}
+                    label={key.replace('show', '').replace(/([A-Z])/g, ' $1').trim()}
+                    checked={formData.settings.layout[key]}
+                    onChange={(e) => setFormData({
+                      ...formData,
+                      settings: {
+                        ...formData.settings,
+                        layout: { ...formData.settings.layout, [key]: e.target.checked }
+                      }
+                    })}
+                    className="custom-switch"
+                  />
                 </Col>
               ))}
             </Row>
