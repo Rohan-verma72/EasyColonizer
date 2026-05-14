@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, Spinner } from "react-bootstrap";
 import { User, Lock, Mail, Phone, Eye, EyeOff } from "lucide-react";
 import axios from "axios";
@@ -8,12 +8,10 @@ import {
   persistSession,
   registerLocalUser,
 } from "../../utils/authFallback";
-
-const NAVY = "#0b4f49";
-const TEAL = "#0f766e";
-const TEAL_DARK = "#0b4f49";
+import { useTenant } from "../../context/TenantContext";
 
 const AuthModal = ({ show, handleClose, onLoginSuccess }) => {
+  const { tenant } = useTenant();
   const navigate = useNavigate();
   const [tab, setTab] = useState("login");
   const [loading, setLoading] = useState(false);
@@ -24,6 +22,9 @@ const AuthModal = ({ show, handleClose, onLoginSuccess }) => {
     username: "", password: "", confirmPassword: "",
     name: "", email: "", phone: "",
   });
+
+  const primaryColor = tenant?.theme?.primaryColor || "#1a237e";
+  const secondaryColor = tenant?.theme?.secondaryColor || "#ffd700";
 
   useEffect(() => {
     if (!show) {
@@ -99,89 +100,101 @@ const AuthModal = ({ show, handleClose, onLoginSuccess }) => {
       keyboard={!loading}
     >
       <Modal.Body
-        className="p-0"
+        className="p-0 border-0"
         style={{
-          borderRadius: 12,
+          borderRadius: 16,
           overflow: "hidden auto",
           border: "none",
           maxHeight: "calc(100vh - 120px)",
         }}
       >
+        <style>
+          {`
+            .auth-input:focus {
+              border-color: ${primaryColor} !important;
+              box-shadow: 0 0 0 0.2rem ${primaryColor}20 !important;
+              background-color: #fff !important;
+            }
+          `}
+        </style>
 
         {/* ── TABS HEADER ── */}
-        <div style={{ display: "flex", position: "relative", background: NAVY }}>
+        <div style={{ display: "flex", position: "relative", background: primaryColor }}>
 
           {/* Login Tab */}
           <button
             onClick={() => { setTab("login"); setError(""); setSuccess(""); }}
             style={{
-              flex: 1, padding: "16px 0",
+              flex: 1, padding: "20px 0",
               border: "none",
               background: tab === "login" ? "white" : "transparent",
-              color: tab === "login" ? NAVY : "white",
-              fontWeight: 700, fontSize: "1rem",
-              cursor: "pointer", transition: "all 0.2s",
-              letterSpacing: "0.3px",
-              borderRadius: tab === "login" ? "0 12px 0 0" : "0",
+              color: tab === "login" ? primaryColor : "rgba(255,255,255,0.85)",
+              fontWeight: 700, fontSize: "1.05rem",
+              cursor: "pointer", transition: "all 0.3s",
+              letterSpacing: "0.5px",
+              borderRadius: tab === "login" ? "0 16px 0 0" : "0",
             }}
-          >Login</button>
+          >LOGIN</button>
 
           {/* Register Tab */}
           <button
             onClick={() => { setTab("register"); setError(""); setSuccess(""); }}
             style={{
-              flex: 1, padding: "16px 0",
+              flex: 1, padding: "20px 0",
               border: "none",
               background: tab === "register" ? "white" : "transparent",
-              color: tab === "register" ? NAVY : "white",
-              fontWeight: 700, fontSize: "1rem",
-              cursor: "pointer", transition: "all 0.2s",
-              letterSpacing: "0.3px",
-              borderRadius: tab === "register" ? "12px 0 0 0" : "0",
+              color: tab === "register" ? primaryColor : "rgba(255,255,255,0.85)",
+              fontWeight: 700, fontSize: "1.05rem",
+              cursor: "pointer", transition: "all 0.3s",
+              letterSpacing: "0.5px",
+              borderRadius: tab === "register" ? "16px 0 0 0" : "0",
             }}
-          >Register</button>
+          >REGISTER</button>
 
           {/* Close X */}
           <button
             onClick={handleClose}
             style={{
               position: "absolute", top: 0, right: 0,
-              width: 44, height: "100%",
-              border: "none", background: "rgba(0,0,0,0.15)",
-              color: "white", fontSize: "1rem",
+              width: 50, height: "100%",
+              border: "none", background: "rgba(0,0,0,0.1)",
+              color: "white", fontSize: "1.2rem",
               cursor: "pointer", display: "flex",
               alignItems: "center", justifyContent: "center",
-              fontWeight: 700,
+              fontWeight: 300,
             }}
           >✕</button>
         </div>
 
         {/* ── FORM BODY ── */}
-        <div style={{ background: "white", padding: "20px 24px 24px" }}>
+        <div style={{ background: "white", padding: "30px 28px" }}>
 
           {error && (
             <div style={{
-              background: "#fef2f2", border: "1px solid #fecaca",
-              color: "#991b1b", borderRadius: 6, padding: "10px 14px",
-              fontSize: "0.85rem", marginBottom: 14, textAlign: "center",
+              background: "#fff5f5", border: "1px solid #fed7d7",
+              color: "#c53030", borderRadius: 8, padding: "12px 16px",
+              fontSize: "0.88rem", marginBottom: 18, textAlign: "center",
+              fontWeight: 500,
             }}>{error}</div>
           )}
 
           {success && (
             <div style={{
-              background: "#edf7f5", border: "1px solid #b8ddd8",
-              color: "#0b4f49", borderRadius: 6, padding: "10px 14px",
-              fontSize: "0.85rem", marginBottom: 14, textAlign: "center",
+              background: "#f0fff4", border: "1px solid #c6f6d5",
+              color: "#2f855a", borderRadius: 8, padding: "12px 16px",
+              fontSize: "0.88rem", marginBottom: 18, textAlign: "center",
+              fontWeight: 500,
             }}>{success}</div>
           )}
 
-          <form onSubmit={submit} style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <form onSubmit={submit} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
 
             {/* LOGIN FIELDS */}
             {tab === "login" && (
               <>
-                <Field icon={<User size={16} color="#aaa" />}>
+                <Field icon={<User size={18} color="#718096" />}>
                   <input
+                    className="auth-input"
                     style={inp}
                     type="text"
                     placeholder="Username"
@@ -192,13 +205,14 @@ const AuthModal = ({ show, handleClose, onLoginSuccess }) => {
                   />
                 </Field>
 
-                <Field icon={<Lock size={16} color="#aaa" />} right={
+                <Field icon={<Lock size={18} color="#718096" />} right={
                   <button type="button" onClick={() => setShowPwd(!showPwd)} style={eyeBtn}>
-                    {showPwd ? <EyeOff size={16} color="#aaa" /> : <Eye size={16} color="#aaa" />}
+                    {showPwd ? <EyeOff size={18} color="#718096" /> : <Eye size={18} color="#718096" />}
                   </button>
                 }>
                   <input
-                    style={{ ...inp, paddingRight: 42 }}
+                    className="auth-input"
+                    style={{ ...inp, paddingRight: 45 }}
                     type={showPwd ? "text" : "password"}
                     placeholder="Password"
                     value={form.password}
@@ -213,33 +227,34 @@ const AuthModal = ({ show, handleClose, onLoginSuccess }) => {
             {/* REGISTER FIELDS */}
             {tab === "register" && (
               <>
-                <Field icon={<User size={16} color="#aaa" />}>
-                  <input style={inp} type="text" placeholder="Full Name"
+                <Field icon={<User size={18} color="#718096" />}>
+                  <input className="auth-input" style={inp} type="text" placeholder="Full Name"
                     value={form.name} onChange={set("name")} required />
                 </Field>
 
-                <Field icon={<User size={16} color="#aaa" />}>
-                  <input style={inp} type="text" placeholder="Username"
+                <Field icon={<User size={18} color="#718096" />}>
+                  <input className="auth-input" style={inp} type="text" placeholder="Username"
                     value={form.username} onChange={set("username")} required autoComplete="username" />
                 </Field>
 
-                <Field icon={<Mail size={16} color="#aaa" />}>
-                  <input style={inp} type="email" placeholder="Email"
+                <Field icon={<Mail size={18} color="#718096" />}>
+                  <input className="auth-input" style={inp} type="email" placeholder="Email"
                     value={form.email} onChange={set("email")} required />
                 </Field>
 
-                <Field icon={<Phone size={16} color="#aaa" />}>
-                  <input style={inp} type="tel" placeholder="Phone"
+                <Field icon={<Phone size={18} color="#718096" />}>
+                  <input className="auth-input" style={inp} type="tel" placeholder="Phone"
                     value={form.phone} onChange={set("phone")} required />
                 </Field>
 
-                <Field icon={<Lock size={16} color="#aaa" />} right={
+                <Field icon={<Lock size={18} color="#718096" />} right={
                   <button type="button" onClick={() => setShowPwd(!showPwd)} style={eyeBtn}>
-                    {showPwd ? <EyeOff size={16} color="#aaa" /> : <Eye size={16} color="#aaa" />}
+                    {showPwd ? <EyeOff size={18} color="#718096" /> : <Eye size={18} color="#718096" />}
                   </button>
                 }>
                   <input
-                    style={{ ...inp, paddingRight: 42 }}
+                    className="auth-input"
+                    style={{ ...inp, paddingRight: 45 }}
                     type={showPwd ? "text" : "password"}
                     placeholder="Password"
                     value={form.password}
@@ -249,8 +264,8 @@ const AuthModal = ({ show, handleClose, onLoginSuccess }) => {
                   />
                 </Field>
 
-                <Field icon={<Lock size={16} color="#aaa" />}>
-                  <input style={inp} type="password" placeholder="Retype Password"
+                <Field icon={<Lock size={18} color="#718096" />}>
+                  <input className="auth-input" style={inp} type="password" placeholder="Retype Password"
                     value={form.confirmPassword} onChange={set("confirmPassword")} required />
                 </Field>
               </>
@@ -261,39 +276,36 @@ const AuthModal = ({ show, handleClose, onLoginSuccess }) => {
               type="submit"
               disabled={loading}
               style={{
-                width: "100%", padding: "14px",
-                marginTop: 6, border: "none", borderRadius: 6,
-                background: loading ? "#8ac7c0" : TEAL,
+                width: "100%", padding: "16px",
+                marginTop: 8, border: "none", borderRadius: 10,
+                background: loading ? `${primaryColor}80` : primaryColor,
                 color: "white", fontWeight: 700,
-                fontSize: "1rem", cursor: loading ? "not-allowed" : "pointer",
-                transition: "background 0.2s",
+                fontSize: "1.05rem", cursor: loading ? "not-allowed" : "pointer",
+                transition: "all 0.3s",
                 display: "flex", alignItems: "center", justifyContent: "center",
-                gap: 8,
+                gap: 10,
+                boxShadow: `0 4px 14px 0 ${primaryColor}40`,
               }}
-              onMouseEnter={(e) => { if (!loading) e.currentTarget.style.background = TEAL_DARK; }}
-              onMouseLeave={(e) => { if (!loading) e.currentTarget.style.background = TEAL; }}
+              onMouseEnter={(e) => { if (!loading) e.currentTarget.style.filter = "brightness(1.15)"; }}
+              onMouseLeave={(e) => { if (!loading) e.currentTarget.style.filter = "none"; }}
             >
               {loading
-                ? <><Spinner size="sm" />Processing...</>
-                : tab === "login" ? "Login" : "Register"
+                ? <><Spinner size="sm" /> Processing...</>
+                : tab === "login" ? "LOGIN" : "REGISTER"
               }
             </button>
 
           </form>
 
           {/* Switch link */}
-          <p style={{ textAlign: "center", marginTop: 14, marginBottom: 0, fontSize: "0.85rem", color: "#666" }}>
-            {tab === "login" ? "New user? " : "Already registered? "}
+          <p style={{ textAlign: "center", marginTop: 20, marginBottom: 0, fontSize: "0.92rem", color: "#4a5568" }}>
+            {tab === "login" ? "Don't have an account? " : "Already have an account? "}
             <button
-              style={{ border: "none", background: "none", color: TEAL_DARK, fontWeight: 700, cursor: "pointer", padding: 0, fontSize: "0.85rem" }}
+              style={{ border: "none", background: "none", color: primaryColor, fontWeight: 700, cursor: "pointer", padding: 0, fontSize: "0.92rem" }}
               onClick={() => { setTab(tab === "login" ? "register" : "login"); setError(""); setSuccess(""); }}
             >
-              {tab === "login" ? "Register here" : "Login here"}
+              {tab === "login" ? "Sign Up here" : "Login here"}
             </button>
-          </p>
-
-          <p style={{ textAlign: "center", marginTop: 10, marginBottom: 0, fontSize: "0.76rem", color: "#64748b" }}>
-            Demo: admin/admin123 or customer/customer123
           </p>
 
         </div>
@@ -304,19 +316,19 @@ const AuthModal = ({ show, handleClose, onLoginSuccess }) => {
 
 const inp = {
   width: "100%",
-  padding: "12px 14px 12px 40px",
-  border: "1px solid #e0e0e0",
-  borderRadius: 6,
-  background: "#fafafa",
-  color: "#143d3b",
-  fontSize: "0.92rem",
+  padding: "14px 16px 14px 44px",
+  border: "1.5px solid #e2e8f0",
+  borderRadius: 10,
+  background: "#f8fafc",
+  color: "#1a202c",
+  fontSize: "0.95rem",
   fontFamily: "Inter, sans-serif",
   outline: "none",
-  transition: "border-color 0.2s",
+  transition: "all 0.25s ease",
 };
 
 const eyeBtn = {
-  position: "absolute", right: 12, top: "50%",
+  position: "absolute", right: 14, top: "50%",
   transform: "translateY(-50%)",
   border: "none", background: "transparent",
   cursor: "pointer", padding: 0, display: "flex",
@@ -325,7 +337,7 @@ const eyeBtn = {
 const Field = ({ icon, children, right }) => (
   <div style={{ position: "relative" }}>
     <span style={{
-      position: "absolute", left: 12, top: "50%",
+      position: "absolute", left: 14, top: "50%",
       transform: "translateY(-50%)",
       pointerEvents: "none", zIndex: 2, display: "flex",
     }}>{icon}</span>

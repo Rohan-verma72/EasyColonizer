@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "aos/dist/aos.css";
 import "../styles/main.css";
+import { TenantProvider } from "../context/TenantContext";
 
 export const metadata = {
   title: "Easy Colonizer | Premium Properties in Bhopal",
@@ -16,7 +17,11 @@ export default function RootLayout({ children }) {
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <TenantProvider>
+          {children}
+        </TenantProvider>
+      </body>
     </html>
   );
 }

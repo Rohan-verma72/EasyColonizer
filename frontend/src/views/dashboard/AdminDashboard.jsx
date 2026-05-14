@@ -45,13 +45,14 @@ import {
   demoUsers,
   demoVisits,
 } from "../../utils/demoData";
+import { useTenant } from "../../context/TenantContext";
+import TenantSettings from "../../components/dashboard/TenantSettings";
 
-const API = axios.create({
-  baseURL: "",
-});
+import api from "../../utils/api";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
+  const { tenant } = useTenant();
 
   const [activeTab, setActiveTab] = useState("leads");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -95,7 +96,7 @@ const AdminDashboard = () => {
       return;
     }
     
-    API.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     
     fetchData();
     if (window.innerWidth < 992) {
@@ -107,10 +108,10 @@ const AdminDashboard = () => {
     try {
       setLoading(true);
       const [leadsRes, propsRes, visitsRes, usersRes] = await Promise.all([
-        API.get("/api/leads").catch(() => ({ data: [] })),
-        API.get("/api/properties").catch(() => ({ data: { properties: [] } })),
-        API.get("/api/site-visits").catch(() => ({ data: [] })),
-        API.get("/api/users").catch(() => ({ data: [] })),
+        api.get("/api/leads").catch(() => ({ data: [] })),
+        api.get("/api/properties").catch(() => ({ data: { properties: [] } })),
+        api.get("/api/site-visits").catch(() => ({ data: [] })),
+        api.get("/api/users").catch(() => ({ data: [] })),
       ]);
 
       const leadsList = Array.isArray(leadsRes.data) ? leadsRes.data : [];
@@ -140,7 +141,7 @@ const AdminDashboard = () => {
 
   const fetchInventory = async (propertyId) => {
     try {
-      const res = await API.get(`/api/inventory/property/${propertyId}`);
+      const res = await api.get(`/api/inventory/property/${propertyId}`);
       const list = Array.isArray(res.data)
         ? res.data
         : Array.isArray(res.data?.data)
@@ -172,7 +173,7 @@ const AdminDashboard = () => {
         );
         return;
       }
-      await API.put(`/api/site-visits/${id}`, { status: newStatus });
+      await api.put(`/api/site-visits/${id}`, { status: newStatus });
       fetchData();
     } catch (err) {
       console.error("Update Status Error:", err);
@@ -250,9 +251,11 @@ const AdminDashboard = () => {
           zIndex: 1050,
         }}
       >
-        <div className="p-4 border-bottom d-flex justify-content-between">
-          <Link to="/" className="text-decoration-none">
-            <h4 className="fw-bold text-primary mb-0">EASY COLONIZER</h4>
+        <div className="p-4 border-bottom d-flex justify-content-between align-items-center">
+          <Link to="/" className="text-decoration-none d-flex align-items-center gap-2">
+            <h4 className="fw-bold mb-0" style={{ color: tenant?.theme?.primaryColor || '#1a237e', fontSize: '1.2rem' }}>
+              {tenant?.name?.toUpperCase() || "ADMIN PANEL"}
+            </h4>
           </Link>
           {isMobile && (
             <X style={{ cursor: "pointer" }} onClick={() => setIsSidebarOpen(false)} />
@@ -307,8 +310,12 @@ const AdminDashboard = () => {
           <div className="mt-auto pt-4 border-top">
             <Link
               to="/"
-              className="p-3 rounded fw-bold d-flex align-items-center gap-2 text-decoration-none text-primary bg-primary bg-opacity-10 hover-bg-opacity-20"
-              style={{ transition: "0.2s" }}
+              className="p-3 rounded fw-bold d-flex align-items-center gap-2 text-decoration-none shadow-sm"
+              style={{ 
+                transition: "0.2s",
+                backgroundColor: `${tenant?.theme?.primaryColor || '#1a237e'}15`,
+                color: tenant?.theme?.primaryColor || '#1a237e'
+              }}
             >
               <ExternalLink size={18} />
               Back to Website
@@ -335,7 +342,7 @@ const AdminDashboard = () => {
           <div className="d-flex gap-2 ms-auto">
             {activeTab === "properties" && (
               <Button
-                variant="primary"
+                style={{ backgroundColor: tenant?.theme?.primaryColor || '#1a237e', border: 'none' }}
                 className="rounded-pill px-4 shadow-sm"
                 onClick={() => {
                   setEditingProperty(null);
@@ -350,7 +357,7 @@ const AdminDashboard = () => {
 
             {activeTab === "team" && (
               <Button
-                variant="primary"
+                style={{ backgroundColor: tenant?.theme?.primaryColor || '#1a237e', border: 'none' }}
                 className="rounded-pill px-4 shadow-sm"
                 onClick={() => {
                   setEditingUser(null);
@@ -448,7 +455,7 @@ const AdminDashboard = () => {
                                 );
                                 return;
                               }
-                              await API.delete(`/api/properties/${p._id}`);
+                              await api.delete(`/api/properties/${p._id}`);
                               fetchData();
                             }}
                           >
@@ -571,7 +578,7 @@ const AdminDashboard = () => {
                                 );
                                 return;
                               }
-                              await API.delete(`/api/users/${u._id}`);
+                              await api.delete(`/api/users/${u._id}`);
                               fetchData();
                             }}
                           >
@@ -587,16 +594,7 @@ const AdminDashboard = () => {
           )}
 
           {activeTab === "settings" && (
-            <Card className="border-0 shadow-sm">
-              <Card.Body className="p-4">
-                <h4 className="fw-bold mb-2">System Status</h4>
-                <p className="text-muted mb-4">
-                  Admin panel uses the same dynamic `/api` routes as the public
-                  website. When backend data is unavailable, demo records keep
-                  the workflow testable.
-                </p>
-              </Card.Body>
-            </Card>
+            <TenantSettings tenant={tenant} onUpdate={() => fetchData()} />
           )}
         </Container>
       </div>
@@ -659,9 +657,9 @@ const AdminDashboard = () => {
                   return;
                 }
                 if (editingProperty) {
-                  await API.put(`/api/properties/${editingProperty._id}`, data);
+                  await api.put(`/api/properties/${editingProperty._id}`, data);
                 } else {
-                  await API.post("/api/properties", data);
+                  await api.post("/api/properties", data);
                 }
                 fetchData();
                 setShowPropertyModal(false);
@@ -1123,13 +1121,19 @@ const AdminDashboard = () => {
 };
 
 const SidebarItem = ({ id, label, icon: Icon, activeTab, setActiveTab }) => {
+  const { tenant } = useTenant();
+  const primaryColor = tenant?.theme?.primaryColor || "#1a237e";
+
   return (
     <div
       onClick={() => setActiveTab(id)}
-      className={`p-3 rounded mb-2 fw-bold d-flex align-items-center gap-2 ${
-        activeTab === id ? "bg-primary text-white" : "bg-light"
+      className={`p-3 rounded mb-2 fw-bold d-flex align-items-center gap-2 transition-all ${
+        activeTab === id ? "text-white shadow-sm" : "text-secondary hover-bg-light"
       }`}
-      style={{ cursor: "pointer" }}
+      style={{ 
+        cursor: "pointer",
+        backgroundColor: activeTab === id ? primaryColor : "transparent",
+      }}
     >
       <Icon size={18} />
       {label}
@@ -1138,16 +1142,27 @@ const SidebarItem = ({ id, label, icon: Icon, activeTab, setActiveTab }) => {
 };
 
 const StatCard = ({ title, value, icon: Icon }) => {
+  const { tenant } = useTenant();
+  const primaryColor = tenant?.theme?.primaryColor || "#1a237e";
+
   return (
     <Col md={3}>
-      <Card className="border-0 shadow-sm">
-        <Card.Body className="d-flex align-items-center gap-3">
-          <div className="bg-primary bg-opacity-10 p-3 rounded-circle">
-            <Icon className="text-primary" size={22} />
+      <Card className="border-0 shadow-sm rounded-4 overflow-hidden">
+        <Card.Body className="d-flex align-items-center gap-3 p-4">
+          <div 
+            className="p-3 rounded-circle d-flex align-items-center justify-content-center"
+            style={{ 
+              backgroundColor: `${primaryColor}15`, // 15 is hex for ~8% opacity
+              color: primaryColor,
+              width: "56px",
+              height: "56px"
+            }}
+          >
+            <Icon size={24} strokeWidth={2.5} />
           </div>
           <div>
-            <small className="text-muted">{title}</small>
-            <h5 className="fw-bold mb-0">{value}</h5>
+            <div className="text-secondary small fw-bold text-uppercase mb-1" style={{ letterSpacing: '0.5px' }}>{title}</div>
+            <h4 className="fw-bold mb-0" style={{ color: "#2d3748" }}>{value}</h4>
           </div>
         </Card.Body>
       </Card>

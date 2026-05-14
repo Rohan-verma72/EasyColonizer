@@ -56,9 +56,9 @@
   gap: 7px;
   padding: 8px 18px;
   border-radius: 999px;
-  background: rgba(13, 148, 136, 0.15);
-  border: 1px solid rgba(13, 148, 136, 0.40);
-  color: #99f6e4;
+  background: rgba(var(--primary-rgb), 0.15);
+  border: 1px solid rgba(var(--primary-rgb), 0.40);
+  color: var(--primary-soft);
   font-size: 0.82rem;
   font-weight: 600;
   letter-spacing: 0.5px;
@@ -78,8 +78,19 @@
 }
 
 .hero-title-accent {
-  color: #9ee7dd;
+  background: linear-gradient(to right, var(--primary), var(--secondary), var(--primary));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   display: inline-block;
+  font-weight: 900;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  animation: shine 3s linear infinite;
+}
+
+@keyframes shine {
+  to { background-position: 200% center; }
 }
 
 
@@ -110,12 +121,12 @@
   font-size: 0.95rem;
   text-decoration: none;
   transition: all 0.3s ease;
-  box-shadow: 0 14px 34px rgba(47, 184, 170, 0.3);
+  box-shadow: 0 14px 34px rgba(var(--primary-rgb), 0.3);
 }
 
 .hero-btn-primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 18px 44px rgba(47, 184, 170, 0.36);
+  box-shadow: 0 18px 44px rgba(var(--primary-rgb), 0.36);
   color: white;
   background: linear-gradient(135deg, var(--primary-dark), var(--primary));
 }
@@ -125,21 +136,20 @@
   align-items: center;
   padding: 15px 32px;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.10);
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  color: white;
+  background: transparent;
+  border: 1px solid var(--secondary);
+  color: var(--secondary);
   font-weight: 600;
   font-size: 0.95rem;
   text-decoration: none;
   transition: all 0.3s ease;
-  backdrop-filter: blur(8px);
 }
 
 .hero-btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.18);
-  border-color: rgba(255, 255, 255, 0.45);
+  background: var(--secondary);
   color: white;
   transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(var(--secondary-rgb), 0.3);
 }
 
 .hero-stats {
@@ -192,7 +202,7 @@
 }
 
 .hero-dot.active {
-  background: #9ee7dd;
+  background: var(--primary-soft);
   width: 28px;
   border-radius: 4px;
 }

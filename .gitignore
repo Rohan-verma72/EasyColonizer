@@ -7,3 +7,5 @@ error.log
 *.log
 .vercel
 package-lock.json
+
+.vercel

@@ -144,6 +144,13 @@ const leadSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+
+    tenantId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Tenant",
+      required: true,
+      index: true,
+    },
   },
   {
     timestamps: true,

@@ -45,8 +45,14 @@ const userSchema = new mongoose.Schema(
 
     role: {
       type: String,
-      enum: ["admin", "manager", "sales", "customer"],
+      enum: ["super-admin", "admin", "manager", "sales", "customer"],
       default: "customer",
+      index: true,
+    },
+
+    tenantId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Tenant",
       index: true,
     },
 

@@ -2,32 +2,31 @@ import { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { ArrowRight, MapPin } from "lucide-react";
+import { useTenant } from "../../context/TenantContext";
 import "../../styles/components/home/Hero.css";
 
 const slides = [
   {
-    image:
-      "	https://wallpaperaccess.com/full/1126773.jpg",label: "Luxury Villas",
+    image: "https://wallpaperaccess.com/full/1126773.jpg",
+    label: "Luxury Villas",
   },
   {
-    image:
-      "		https://thumbs.dreamstime.com/z/modern-real-estate…ept-evening-outdoor-urban-view-homes-40083842.jpg",
+    image: "https://thumbs.dreamstime.com/z/modern-real-estate-evening-outdoor-urban-view-homes-40083842.jpg",
     label: "Premium Apartments",
   },
   {
-    image:
-      "	https://vastuhouse.in/wp-content/uploads/2025/04/Row-house-Architects.jpg",
-    label: "Gated Communities",
+    image: "https://vastuhouse.in/wp-content/uploads/2025/04/Row-house-Architects.jpg",
+    label: "Row Houses",
   },
   {
-    image:
-      "https://flowphotos.com/wp-content/uploads/Commercial-Real-Estate-Photography-1080x675.jpg",
-    label: "Premium Plots",
+    image: "https://flowphotos.com/wp-content/uploads/Commercial-Real-Estate-Photography-1080x675.jpg",
+    label: "Commercial Spaces",
   },
 ];
 
 const Hero = () => {
   const [current, setCurrent] = useState(0);
+  const { tenant } = useTenant();
 
   useEffect(() => {
     const timer = setInterval(
@@ -36,6 +35,12 @@ const Hero = () => {
     );
     return () => clearInterval(timer);
   }, []);
+
+  const heroData = tenant?.hero || {
+    title: "Find Your <br /> <span class='hero-title-accent'>Dream Property</span> <br /> in Bhopal",
+    subtitle: "Verified plots, villas, apartments & commercial spaces with complete transparency and zero brokerage.",
+    location: "Bhopal, Madhya Pradesh"
+  };
 
   return (
     <section className="hero-section" aria-label="Hero">
@@ -62,22 +67,18 @@ const Hero = () => {
               {/* Location pill */}
               <div className="hero-location-pill">
                 <MapPin size={14} />
-                Bhopal, Madhya Pradesh
+                {heroData.location}
               </div>
 
               {/* Headline */}
-              <h4 className="hero-title">
-                Find Your
-                <br />
-                <span className="hero-title-accent">Dream Property</span>
-                <br />
-                in Bhopal
-              </h4>
+              <h4 
+                className="hero-title" 
+                dangerouslySetInnerHTML={{ __html: heroData.title }}
+              />
 
               {/* Subtext */}
               <p className="hero-subtitle">
-                Verified plots, villas, apartments &amp; commercial spaces
-                with complete transparency and zero brokerage.
+                {heroData.subtitle}
               </p>
 
               {/* CTAs */}

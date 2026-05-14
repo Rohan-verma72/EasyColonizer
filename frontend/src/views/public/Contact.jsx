@@ -3,8 +3,12 @@ import { Container, Row, Col, Form, Button, Card, Alert } from "react-bootstrap"
 import { MapPin, Phone, Mail, Send } from "lucide-react";
 import axios from "axios";
 import { SITE } from "../../config/site";
+import { useTenant } from "../../context/TenantContext";
 
 const Contact = () => {
+  const { tenant } = useTenant();
+  const contactInfo = tenant?.contactInfo || SITE;
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -140,7 +144,7 @@ const Contact = () => {
                     <h5 className="fw-bold mb-1">Email Address</h5>
 
                     <p className="text-muted mb-0 small">
-                      {SITE.email}
+                      {contactInfo.email}
                     </p>
                   </div>
                 </Card.Body>

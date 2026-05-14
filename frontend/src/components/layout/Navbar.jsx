@@ -15,11 +15,13 @@ import {
 } from "lucide-react";
 
 import AuthModal from "../modals/AuthModal";
+import { useTenant } from "../../context/TenantContext";
 
 import "../../styles/components/layout/Navbar.css";
 
 const AppNavbar = () => {
   const location = useLocation();
+  const { tenant } = useTenant();
 
   const [, setCartCount] = useState(0);
 
@@ -132,12 +134,36 @@ const AppNavbar = () => {
           <Navbar.Brand
             as={Link}
             to="/"
-            className="brand-logo"
+            className="brand-logo d-flex align-items-center gap-2"
           >
-            <span className="brand-highlight">
-              EASY
-            </span>
-            COLONIZER
+            {tenant?.logo && (
+              <img 
+                src={tenant.logo} 
+                alt="" 
+                height="38" 
+                width="38"
+                style={{ 
+                  objectFit: 'cover', 
+                  borderRadius: '50%',
+                  border: '2px solid var(--primary-soft)',
+                  padding: '2px',
+                  background: 'white'
+                }} 
+              />
+            )}
+            <div className="brand-text">
+              {tenant?.name ? (
+                <>
+                  <span className="brand-highlight">{tenant.name.split(" ")[0]}</span>
+                  {" "}
+                  {tenant.name.split(" ").slice(1).join(" ")}
+                </>
+              ) : (
+                <>
+                  <span className="brand-highlight">EASY</span> COLONIZER
+                </>
+              )}
+            </div>
           </Navbar.Brand>
 
           {/* MOBILE TOGGLE */}

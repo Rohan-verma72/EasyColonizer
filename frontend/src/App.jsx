@@ -31,6 +31,7 @@ import ChatBot from "./components/home/ChatBot";
 import ExpertAdvice from "./components/ExpertAdvice";
 import SEO from "./components/seo/SEO";
 import ComparisonTool from "./components/property/ComparisonTool";
+import { useTenant } from "./context/TenantContext";
 
 import About from "./views/public/About";
 import Contact from "./views/public/Contact";
@@ -45,6 +46,8 @@ import AdminLogin from "./views/auth/AdminLogin";
 
 const AppLayout = () => {
   const location = useLocation();
+  const { tenant } = useTenant();
+  const layout = tenant?.settings?.layout || {};
 
 
 
@@ -74,27 +77,27 @@ const AppLayout = () => {
                   description="Explore verified plots, villas, flats and commercial properties in Bhopal with transparent pricing and expert support."
                 />
 
-                <Hero />
+                {layout.showHero !== false && <Hero />}
 
-                <BankPartners />
+                {layout.showBankPartners !== false && <BankPartners />}
 
-                <MarketTrends />
+                {layout.showMarketTrends !== false && <MarketTrends />}
 
-                <FeaturedProperties />
+                {layout.showFeatured !== false && <FeaturedProperties />}
 
-                <MarketingTrust />
+                {layout.showMarketingTrust !== false && <MarketingTrust />}
 
-                <ExpertAdvice />
+                {layout.showExpertAdvice !== false && <ExpertAdvice />}
 
-                <TrendingProjects />
+                {layout.showTrending !== false && <TrendingProjects />}
 
-                <AdvancedTools />
+                {layout.showAdvancedTools !== false && <AdvancedTools />}
 
-                <RecentlyViewed />
+                {layout.showRecentlyViewed !== false && <RecentlyViewed />}
 
-                <Stats />
+                {layout.showStats !== false && <Stats />}
 
-                <Testimonials />
+                {layout.showTestimonials !== false && <Testimonials />}
               </>
             }
           />

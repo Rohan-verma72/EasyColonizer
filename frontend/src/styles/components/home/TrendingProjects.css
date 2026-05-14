@@ -7,9 +7,9 @@
 }
 
 .trending-badge {
-  background: var(--accent-soft);
-  color: var(--accent-dark);
-  border: 1px solid rgba(201, 168, 76, 0.25);
+  background: rgba(var(--secondary-rgb), 0.1);
+  color: var(--secondary);
+  border: 1px solid rgba(var(--secondary-rgb), 0.25);
   font-weight: 700;
   letter-spacing: 0.5px;
   font-size: 0.82rem;

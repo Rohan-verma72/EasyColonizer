@@ -24,9 +24,13 @@ app.use(
       return callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization", "x-tenant-id", "x-tenant-slug"],
+    exposedHeaders: ["x-tenant-id", "x-tenant-slug"],
   })
 );
 app.use(express.json());
+const tenantHandler = require("./middleware/tenantHandler");
+app.use(tenantHandler);
 
 if (!process.env.JWT_SECRET) {
   process.env.JWT_SECRET = "easy-colonizer-local-dev-secret";
@@ -44,6 +48,7 @@ const syncRoutes = require('./routes/syncRoutes');
 const siteVisitRoutes = require('./routes/siteVisitRoutes');
 const inventoryRoutes = require('./routes/inventoryRoutes');
 const userRoutes = require('./routes/userRoutes');
+const tenantRoutes = require('./routes/tenantRoutes');
 app.use('/api/properties', propertyRoutes);
 app.use('/api/leads', leadRoutes);
 app.use('/api/auth', authRoutes);
@@ -51,6 +56,7 @@ app.use('/api/sync', syncRoutes);
 app.use('/api/site-visits', siteVisitRoutes);
 app.use('/api/inventory', inventoryRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/tenants', tenantRoutes);
 
 app.get('/', (req, res) => {
   res.send('Easy Colonizer API is running...');

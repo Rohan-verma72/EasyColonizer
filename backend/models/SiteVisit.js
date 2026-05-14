@@ -66,6 +66,13 @@ const siteVisitSchema = new mongoose.Schema(
       trim: true,
       maxlength: 1000,
     },
+
+    tenantId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Tenant",
+      required: true,
+      index: true,
+    },
   },
   {
     timestamps: true,

@@ -2,13 +2,13 @@
 
 .footer-section {
   background:
-    radial-gradient(circle at top left, rgba(158, 231, 221, 0.18), transparent 28rem),
-    linear-gradient(145deg, #0b4f49 0%, #123f3c 52%, #092f2d 100%);
+    radial-gradient(circle at top left, rgba(158, 231, 221, 0.1), transparent 28rem),
+    var(--footer-bg, #0a0d27);
   overflow-x: hidden;
 }
 
 .footer-cta-bar {
-  background: linear-gradient(135deg, #2fb8aa, #0f766e);
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
   padding: 24px 0;
 }
 

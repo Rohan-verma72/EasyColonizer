@@ -32,6 +32,9 @@ router.get("/", async (req, res) => {
     } = req.query;
 
     const query = {};
+    if (req.tenant) {
+      query.tenantId = req.tenant._id;
+    }
 
     
     if (location?.trim()) {
@@ -178,9 +181,11 @@ router.get("/", async (req, res) => {
 
 router.get("/featured", async (req, res) => {
   try {
-    const properties = await Property.find({
-      status: "Available",
-    })
+    const query = { status: "Available" };
+    if (req.tenant) {
+      query.tenantId = req.tenant._id;
+    }
+    const properties = await Property.find(query)
       .sort({ createdAt: -1 })
       .limit(6)
       .lean();
@@ -221,7 +226,11 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const property = new Property(req.body);
+    const propertyData = { ...req.body };
+    if (req.tenant) {
+      propertyData.tenantId = req.tenant._id;
+    }
+    const property = new Property(propertyData);
 
     const saved = await property.save();
 
@@ -244,8 +253,12 @@ router.post("/", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   try {
-    const updated = await Property.findByIdAndUpdate(
-      req.params.id,
+    const query = { _id: req.params.id };
+    if (req.tenant) {
+      query.tenantId = req.tenant._id;
+    }
+    const updated = await Property.findOneAndUpdate(
+      query,
       req.body,
       {
         new: true,
@@ -272,9 +285,11 @@ router.put("/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   try {
-    const property = await Property.findById(
-      req.params.id,
-    );
+    const query = { _id: req.params.id };
+    if (req.tenant) {
+      query.tenantId = req.tenant._id;
+    }
+    const property = await Property.findOne(query);
 
     if (!property) {
       return res.status(404).json({

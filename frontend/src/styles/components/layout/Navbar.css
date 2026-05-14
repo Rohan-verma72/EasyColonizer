@@ -45,14 +45,14 @@
 
 .nav-item-custom:hover {
   color: var(--primary) !important;
-  background: rgba(158, 231, 221, 0.24) !important;
-  border-color: rgba(47, 184, 170, 0.2);
+  background: rgba(var(--primary-rgb), 0.24) !important;
+  border-color: rgba(var(--primary-rgb), 0.2);
 }
 
 .active-nav {
   color: var(--primary) !important;
-  background: rgba(158, 231, 221, 0.28) !important;
-  border: 1px solid rgba(47, 184, 170, 0.24) !important;
+  background: rgba(var(--primary-rgb), 0.28) !important;
+  border: 1px solid rgba(var(--primary-rgb), 0.24) !important;
   font-weight: 600;
 }
 

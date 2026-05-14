@@ -1,8 +1,17 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { Shield, Target, Users, CheckCircle } from "lucide-react";
+import { useTenant } from "../../context/TenantContext";
 
 const About = () => {
+  const { tenant } = useTenant();
+  
+  const aboutData = tenant?.about || {
+    title: "About Our Company",
+    content: "We are dedicated to revolutionizing the real estate industry in Bhopal by providing transparency, efficiency, and trust in every property transaction.",
+    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+  };
+
   return (
     <div className="page-wrapper bg-white text-dark min-vh-100">
       {/* HERO SECTION */}
@@ -10,14 +19,12 @@ const About = () => {
         <Container>
           <Row className="justify-content-center text-center">
             <Col lg={8}>
-              <h1 className="display-3 fw-bold mb-3">
-                About <span className="text-primary">Us</span>
+              <h1 className="display-4 fw-bold mb-3">
+                {aboutData.title.split(" ").slice(0, -1).join(" ")} <span className="text-primary">{aboutData.title.split(" ").slice(-1)}</span>
               </h1>
 
               <p className="lead text-secondary">
-                We are dedicated to revolutionizing the real estate industry in
-                Bhopal by providing transparency, efficiency, and trust in every
-                property transaction.
+                {aboutData.content.substring(0, 150)}...
               </p>
             </Col>
           </Row>
@@ -36,39 +43,34 @@ const About = () => {
               <h3 className="h4 fw-bold mb-3">Our Mission</h3>
 
               <p className="text-secondary mb-0">
-                To provide high-quality plots and commercial spaces that empower
-                people to build their dreams on solid foundations.
+                To provide high-quality plots and commercial spaces that empower people to build their dreams.
               </p>
             </div>
           </Col>
 
           <Col md={4}>
             <div className="p-4 bg-white rounded-4 h-100 border shadow-sm">
-              <div className="bg-warning bg-opacity-10 p-3 rounded-circle d-inline-flex mb-3">
-                <Target className="text-warning" size={32} />
+              <div className="bg-primary bg-opacity-10 p-3 rounded-circle d-inline-flex mb-3">
+                <Target className="text-primary" size={32} />
               </div>
 
               <h3 className="h4 fw-bold mb-3">Our Vision</h3>
 
               <p className="text-secondary mb-0">
-                To become Central India's most trusted real estate platform
-                known for transparency and verified property listings.
+                To become the most trusted real estate platform known for transparency.
               </p>
             </div>
           </Col>
 
           <Col md={4}>
             <div className="p-4 bg-white rounded-4 h-100 border shadow-sm">
-              <div className="bg-success bg-opacity-10 p-3 rounded-circle d-inline-flex mb-3">
-                <Users className="text-success" size={32} />
+              <div className="bg-primary bg-opacity-10 p-3 rounded-circle d-inline-flex mb-3">
+                <Users className="text-primary" size={32} />
               </div>
 
               <h3 className="h4 fw-bold mb-3">Our Values</h3>
 
-              <p className="text-secondary mb-0">
-                Integrity, Customer-Centricity, and Innovation are at the core
-                of everything we do at Easy Colonizer.
-              </p>
+              <p className="text-secondary mb-0">Integrity, Customer-Centricity, and Innovation are at our core.</p>
             </div>
           </Col>
         </Row>
@@ -78,7 +80,7 @@ const About = () => {
           <Col lg={6}>
             <div className="position-relative">
               <img
-                src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+                src={aboutData.image || "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"}
                 alt="Real Estate"
                 className="img-fluid rounded-4 shadow-lg w-100"
                 style={{
@@ -101,20 +103,11 @@ const About = () => {
           </Col>
 
           <Col lg={6}>
-            <h6 className="text-primary fw-bold text-uppercase mb-2">
-              Since 2008
-            </h6>
+            <h6 className="text-primary fw-bold text-uppercase mb-2">Our Journey</h6>
 
-            <h2 className="display-6 fw-bold mb-4">
-              Why Bhopal Trusts <br />
-              Easy Colonizer?
-            </h2>
+            <h2 className="display-6 fw-bold mb-4">{aboutData.title}</h2>
 
-            <p className="text-secondary fs-5 mb-4">
-              With years of experience in the real estate market, we understand
-              that buying a property is one of the most significant decisions of
-              your life.
-            </p>
+            <p className="text-secondary fs-5 mb-4">{aboutData.content}</p>
 
             <Row className="g-3">
               {[
@@ -127,14 +120,8 @@ const About = () => {
               ].map((item, index) => (
                 <Col sm={6} key={index}>
                   <div className="d-flex align-items-start gap-2">
-                    <CheckCircle
-                      size={18}
-                      className="text-success mt-1"
-                    />
-
-                    <span className="text-secondary fw-medium">
-                      {item}
-                    </span>
+                    <CheckCircle size={18} className="text-primary mt-1" />
+                    <span className="text-secondary fw-medium">{item}</span>
                   </div>
                 </Col>
               ))}
