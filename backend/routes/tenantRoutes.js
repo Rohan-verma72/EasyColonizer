@@ -69,7 +69,14 @@ router.put("/settings", async (req, res) => {
 
     // Update Hero Content
     if (req.body.hero) {
-      tenant.hero = { ...tenant.hero, ...req.body.hero };
+      tenant.hero = {
+        ...tenant.hero.toObject ? tenant.hero.toObject() : tenant.hero,
+        ...req.body.hero,
+        // Explicitly assign images array so MongoDB saves it correctly
+        images: Array.isArray(req.body.hero.images)
+          ? req.body.hero.images.filter(Boolean)
+          : tenant.hero.images
+      };
       tenant.markModified("hero");
     }
 
