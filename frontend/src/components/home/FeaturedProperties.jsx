@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Container, Row, Col, Button, Spinner } from "react-bootstrap";
-import axios from "axios";
+import api from "../../utils/api";
 import PropertyCard from "../property/PropertyCard";
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
@@ -14,7 +14,7 @@ const FeaturedProperties = () => {
     const fetchProperties = async () => {
       try {
         setLoading(true);
-        const res = await axios.get("/api/properties/featured");
+        const res = await api.get("/api/properties/featured");
         const data = Array.isArray(res.data) ? res.data : [];
         const cleanData = data.filter((p) => p && p.type !== "Machinery");
         setProperties(cleanData);

@@ -6,13 +6,13 @@ import "../../styles/components/home/Testimonials.css";
 const reviews = [
   {
     name: "Rajesh Khandelwal",
-    role: "Businessman, Bhopal",
+    role: "Verified Buyer",
     text: "Buying a plot through Easy Colonizer was the easiest decision of my life. The transparency in documentation and zero brokerage saved me lakhs. Highly recommended for any serious investor!",
     image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43b?fit=crop&w=300&h=300",
   },
   {
     name: "Priya Sharma",
-    role: "Home Maker, Kolar Road",
+    role: "Happy Resident",
     text: "We were looking for our dream home for 2 years. The team here understood our needs and found us a perfect 3BHK row house in a gated community. Their site visits are so professional.",
     image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?fit=crop&w=300&h=300",
   },
@@ -37,7 +37,7 @@ const Testimonials = () => {
           </h2>
 
           <p className="section-subheading mt-3">
-            Trusted by thousands of families and investors across Bhopal for
+            Trusted by thousands of families and investors for
             verified properties, transparent deals, and expert assistance.
           </p>
         </div>

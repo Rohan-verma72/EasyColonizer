@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Modal, Button, Form, Alert, Row, Col } from "react-bootstrap";
-import axios from "axios";
+import api from "../../utils/api";
 import {
   Calendar,
   Clock,
@@ -78,7 +78,7 @@ const SiteVisitModal = ({ show, handleClose, property }) => {
     try {
       setLoading(true);
 
-      await axios.post("/api/site-visits", {
+      await api.post("/api/site-visits", {
         ...formData,
         propertyId: property?._id,
       });

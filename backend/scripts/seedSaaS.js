@@ -12,7 +12,6 @@ const seedSaaS = async () => {
     await mongoose.connect(process.env.MONGODB_URI);
     console.log("Connected to MongoDB");
 
-    // 1. Create Default Tenant
     let defaultTenant = await Tenant.findOne({ slug: "default" });
     if (!defaultTenant) {
       defaultTenant = await Tenant.create({
@@ -34,7 +33,6 @@ const seedSaaS = async () => {
 
     const tenantId = defaultTenant._id;
 
-    // 2. Update existing records to link with default tenant
     const updateResult = await Promise.all([
       Property.updateMany({ tenantId: { $exists: false } }, { $set: { tenantId } }),
       User.updateMany({ tenantId: { $exists: false } }, { $set: { tenantId } }),

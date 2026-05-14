@@ -12,7 +12,7 @@
 
 .property-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(15, 118, 110, 0.24) !important;
+  border-color: rgba(var(--primary-rgb), 0.24) !important;
   box-shadow: var(--shadow-md) !important;
 }
 

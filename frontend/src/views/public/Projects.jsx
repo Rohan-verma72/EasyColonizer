@@ -21,7 +21,7 @@ import {
   CheckCircle,
 } from "lucide-react";
 
-import axios from "axios";
+import api from "../../utils/api";
 import PropertyCard from "../../components/property/PropertyCard";
 import { demoProperties } from "../../utils/demoData";
 
@@ -115,7 +115,7 @@ const Projects = () => {
       if (filters.maxArea)
         params.append("maxArea", filters.maxArea);
 
-      const res = await axios.get(
+      const res = await api.get(
         `/api/properties?${params.toString()}`
       );
 

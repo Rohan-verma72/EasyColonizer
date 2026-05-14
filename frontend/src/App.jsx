@@ -74,7 +74,7 @@ const AppLayout = () => {
               <>
                 <SEO
                   title="Easy Colonizer | Verified Real Estate Projects"
-                  description="Explore verified plots, villas, flats and commercial properties in Bhopal with transparent pricing and expert support."
+                  description="Explore verified plots, villas, flats and commercial properties with transparent pricing and expert support."
                 />
 
                 {layout.showHero !== false && <Hero />}
@@ -109,7 +109,7 @@ const AppLayout = () => {
               <>
                 <SEO
                   title="About Us | Easy Colonizer"
-                  description="Learn why Easy Colonizer is trusted for verified real estate projects, transparent deals and expert consultation in Bhopal."
+                  description="Learn why Easy Colonizer is trusted for verified real estate projects, transparent deals and expert consultation."
                 />
 
                 <About />
@@ -124,7 +124,7 @@ const AppLayout = () => {
               <>
                 <SEO
                   title="Contact Us | Easy Colonizer"
-                  description="Contact Easy Colonizer for verified property deals, expert consultation and site visits in Bhopal."
+                  description="Contact Easy Colonizer for verified property deals, expert consultation and site visits."
                 />
 
                 <Contact />
@@ -139,7 +139,7 @@ const AppLayout = () => {
               <>
                 <SEO
                   title="Search Properties | Easy Colonizer"
-                  description="Search verified plots, apartments, villas, row houses and commercial properties in prime Bhopal locations."
+                  description="Search verified plots, apartments, villas, row houses and commercial properties in prime locations."
                 />
 
                 <Projects />

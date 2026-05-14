@@ -27,7 +27,7 @@ import {
   Download,
 } from "lucide-react";
 
-import axios from "axios";
+import api from "../../utils/api";
 
 import EnquiryModal from "../../components/modals/EnquiryModal";
 import SiteVisitModal from "../../components/modals/SiteVisitModal";
@@ -136,7 +136,7 @@ const PropertyDetails = () => {
 
   const fetchProperty = async () => {
     try {
-      const res = await axios.get(`/api/properties/${id}`);
+      const res = await api.get(`/api/properties/${id}`);
       const data = res.data;
       setProperty(data);
       setMainImage(data?.images?.[0] || "");
@@ -150,7 +150,7 @@ const PropertyDetails = () => {
 
   const fetchInventory = async () => {
     try {
-      const res = await axios.get(
+      const res = await api.get(
         `/api/inventory/property/${id}`,
       );
 

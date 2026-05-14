@@ -8,7 +8,7 @@ const About = () => {
   
   const aboutData = tenant?.about || {
     title: "About Our Company",
-    content: "We are dedicated to revolutionizing the real estate industry in Bhopal by providing transparency, efficiency, and trust in every property transaction.",
+    content: "We are dedicated to revolutionizing the real estate industry in the region by providing transparency, efficiency, and trust in every property transaction.",
     image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
   };
 
@@ -36,8 +36,8 @@ const About = () => {
         <Row className="g-4 mb-5">
           <Col md={4}>
             <div className="p-4 bg-white rounded-4 h-100 border shadow-sm">
-              <div className="bg-primary bg-opacity-10 p-3 rounded-circle d-inline-flex mb-3">
-                <Shield className="text-primary" size={32} />
+              <div className="bg-primary p-3 rounded-circle d-inline-flex mb-3">
+                <Shield className="text-white" size={32} />
               </div>
 
               <h3 className="h4 fw-bold mb-3">Our Mission</h3>
@@ -50,8 +50,8 @@ const About = () => {
 
           <Col md={4}>
             <div className="p-4 bg-white rounded-4 h-100 border shadow-sm">
-              <div className="bg-primary bg-opacity-10 p-3 rounded-circle d-inline-flex mb-3">
-                <Target className="text-primary" size={32} />
+              <div className="bg-primary p-3 rounded-circle d-inline-flex mb-3">
+                <Target className="text-white" size={32} />
               </div>
 
               <h3 className="h4 fw-bold mb-3">Our Vision</h3>
@@ -64,8 +64,8 @@ const About = () => {
 
           <Col md={4}>
             <div className="p-4 bg-white rounded-4 h-100 border shadow-sm">
-              <div className="bg-primary bg-opacity-10 p-3 rounded-circle d-inline-flex mb-3">
-                <Users className="text-primary" size={32} />
+              <div className="bg-primary p-3 rounded-circle d-inline-flex mb-3">
+                <Users className="text-white" size={32} />
               </div>
 
               <h3 className="h4 fw-bold mb-3">Our Values</h3>

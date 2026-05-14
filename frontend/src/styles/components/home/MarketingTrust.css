@@ -17,62 +17,63 @@
 
 .trust-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 12px 32px rgba(0,0,0,0.10);
-  border-color: rgba(47,184,170,0.28);
+  box-shadow: 0 12px 32px rgba(var(--primary-rgb), 0.15);
+  border-color: var(--primary);
 }
 
 .trust-icon-wrap {
   width: 60px;
   height: 60px;
   border-radius: 14px;
-  background: #e8fbf8;
+  background: var(--primary-soft);
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 16px;
-  color: #0f766e;
+  color: var(--primary);
   transition: all 0.3s ease;
 }
 
 .trust-card:hover .trust-icon-wrap {
-  background: #2fb8aa;
+  background: var(--primary);
   color: white;
 }
 
 .trust-title {
   font-weight: 700;
-  font-size: 1rem;
-  color: #143d3b;
+  font-size: 1.1rem;
+  color: #1a237e;
   margin-bottom: 8px;
   font-family: var(--font-heading);
 }
 
 .trust-desc {
-  color: #6b7280;
-  font-size: 0.87rem;
-  line-height: 1.65;
+  color: #64748b;
+  font-size: 0.9rem;
+  line-height: 1.6;
   margin: 0;
 }
 
-/* CTA Banner — dark navy, NOT orange */
+/* CTA Banner — lighter and more elegant */
 .trust-cta-banner {
-  background:
-    radial-gradient(circle at top right, rgba(158, 231, 221, 0.18), transparent 18rem),
-    linear-gradient(135deg, #0b4f49, #123f3c);
-  border-radius: 20px;
-  padding: 48px 40px;
+  background: 
+    linear-gradient(135deg, var(--primary), rgba(var(--primary-rgb), 0.8)),
+    url('https://www.transparenttextures.com/patterns/cubes.png');
+  border-radius: 24px;
+  padding: 60px 40px;
   color: white;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 20px 40px rgba(var(--primary-rgb), 0.2);
 }
 
 .trust-cta-banner::before {
   content: "";
   position: absolute;
-  top: -50px; right: -50px;
-  width: 200px; height: 200px;
+  top: -100px; right: -100px;
+  width: 300px; height: 300px;
   border-radius: 50%;
-  background: rgba(158,231,221,0.12);
+  background: rgba(255, 255, 255, 0.15);
   pointer-events: none;
 }
 

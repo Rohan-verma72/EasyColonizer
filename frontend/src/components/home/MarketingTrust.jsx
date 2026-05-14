@@ -62,7 +62,7 @@ const MarketingTrust = () => {
           <span className="section-badge">Our Promise</span>
 
           <h2 className="section-heading mt-3">
-            Bhopal's Most <span className="text-gradient">Trusted Partner</span>
+            Your Most <span className="text-gradient">Trusted Partner</span>
           </h2>
 
           <p className="section-subheading mt-3">

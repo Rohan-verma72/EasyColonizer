@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Container, Row, Col, Form, Button, Card, Alert } from "react-bootstrap";
 import { MapPin, Phone, Mail, Send } from "lucide-react";
-import axios from "axios";
+import api from "../../utils/api";
 import { SITE } from "../../config/site";
 import { useTenant } from "../../context/TenantContext";
 
@@ -37,9 +37,12 @@ const Contact = () => {
     setStatus({ type: "", message: "" });
 
     try {
-      await axios.post("/api/leads", {
+      // Strip non-digits from phone before submitting
+      const cleanPhone = formData.phone.replace(/\D/g, "").slice(-10);
+      await api.post("/api/leads", {
         ...formData,
-        source: "Contact Page",
+        phone: cleanPhone,
+        source: "Website",
       });
 
       setStatus({

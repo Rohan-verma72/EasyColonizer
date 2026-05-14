@@ -29,7 +29,7 @@ import {
   XCircle,
 } from "lucide-react";
 
-import axios from "axios";
+import api from "../../utils/api";
 import { useNavigate, Link } from "react-router-dom";
 import {
   getPropertyImage,
@@ -42,10 +42,7 @@ import {
 } from "../../utils/authFallback";
 import { demoProperties } from "../../utils/demoData";
 
-// Use relative URLs so Next.js proxy handles routing to backend
-const API = axios.create({
-  baseURL: "",
-});
+// Removed local API instance, using global api utility instead
 
 const CustomerDashboard = () => {
   const navigate = useNavigate();
@@ -108,7 +105,7 @@ const CustomerDashboard = () => {
       typeof item === "object" ? item._id : item
     );
 
-    axios
+    api
       .get("/api/properties")
       .then((res) => {
         const source = normalizePropertiesResponse(res.data);
@@ -126,11 +123,11 @@ const CustomerDashboard = () => {
       const userId = localStorage.getItem("userId");
 
       const [bookingRes, userRes] = await Promise.all([
-        API.get(`/api/inventory/customer/${userId}`).catch(() => ({
+        api.get(`/api/inventory/customer/${userId}`).catch(() => ({
           data: { data: [] },
         })),
 
-        API.get(`/api/users/profile/${userId}`).catch(() => ({
+        api.get(`/api/users/profile/${userId}`).catch(() => ({
           data: {},
         })),
       ]);
@@ -183,7 +180,7 @@ const CustomerDashboard = () => {
     if (!window.confirm("Are you sure you want to cancel this booking?")) return;
 
     try {
-      await API.post(`/api/inventory/${unitId}/cancel`);
+      await api.post(`/api/inventory/${unitId}/cancel`);
       
       // Update local storage for demo sync
       const localBooked = JSON.parse(localStorage.getItem("localBookedUnits") || "[]");
@@ -305,7 +302,7 @@ const CustomerDashboard = () => {
           <div className="mt-auto pt-4 border-top">
             <Link
               to="/"
-              className="p-3 rounded fw-bold d-flex align-items-center gap-2 text-decoration-none text-primary bg-primary bg-opacity-10 hover-bg-opacity-20"
+              className="p-3 rounded fw-bold d-flex align-items-center gap-2 text-decoration-none text-white bg-primary shadow-sm"
               style={{ transition: "0.2s" }}
             >
               <ExternalLink size={18} />
@@ -559,7 +556,7 @@ const CustomerDashboard = () => {
               e.preventDefault();
 
               try {
-                await API.put(
+                await api.put(
                   `/api/users/profile/${user._id}`,
                   editData
                 );
@@ -669,8 +666,8 @@ const StatCard = ({ title, value, icon: Icon }) => {
       <Card className="border-0 shadow-sm">
         <Card.Body className="d-flex align-items-center gap-3">
 
-          <div className="bg-primary bg-opacity-10 p-3 rounded-circle">
-            <Icon className="text-primary" size={22} />
+          <div className="bg-primary p-3 rounded-circle">
+            <Icon className="text-white" size={22} />
           </div>
 
           <div>

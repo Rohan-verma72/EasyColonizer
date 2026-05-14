@@ -8,7 +8,7 @@ import {
   Alert,
   Spinner,
 } from "react-bootstrap";
-import axios from "axios";
+import api from "../../utils/api";
 import {
   Send,
   Phone,
@@ -108,7 +108,7 @@ const EnquiryModal = ({
     }
 
     try {
-      await axios.post("/api/leads", {
+      await api.post("/api/leads", {
         ...formData,
         propertyId: property?._id,
       });

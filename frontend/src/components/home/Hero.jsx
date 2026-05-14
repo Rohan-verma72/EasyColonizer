@@ -54,9 +54,9 @@ const Hero = () => {
   }, [slidesKey]);
 
   const heroData = tenant?.hero || {
-    title: "Find Your <br /> <span class='hero-title-accent'>Dream Property</span> <br /> in Bhopal",
+    title: "Find Your <br /> <span class='hero-title-accent'>Dream Property</span> <br /> Today",
     subtitle: "Verified plots, villas, apartments & commercial spaces with complete transparency and zero brokerage.",
-    location: "Bhopal, Madhya Pradesh"
+    location: "Premium Locations"
   };
 
   return (

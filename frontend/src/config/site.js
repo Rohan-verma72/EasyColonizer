@@ -1,31 +1,31 @@
 export const SITE = {
   name: "Easy Colonizer",
-  city: "Bhopal",
+  city: "",
 
-  phoneDisplay: "+91 91110 00000",
-  phoneHref: "919111000000",
-  whatsappNumber: "919111000000",
+  phoneDisplay: "+91 00000 00000",
+  phoneHref: "910000000000",
+  whatsappNumber: "910000000000",
   email: "contact@easycolonizer.com",
 
-  address: "Office No. 12, MP Nagar, Zone-II, Bhopal, MP - 462011",
-  shortAddress: "MP Nagar, Bhopal",
+  address: "Premium Real Estate Solutions",
+  shortAddress: "Your Trusted Partner",
 
-  tagline: "Bhopal's Trusted Real Estate Partner",
+  tagline: "Your Most Trusted Real Estate Partner",
   foundedYear: "2010",
 
   social: {
     instagram: "https://instagram.com/",
     facebook: "https://facebook.com/",
     youtube: "https://youtube.com/",
-    whatsapp: "https://wa.me/919111000000",
+    whatsapp: "https://wa.me/910000000000",
   },
 
   seo: {
-    title: "Easy Colonizer | Premium Properties in Bhopal",
+    title: "Easy Colonizer | Premium Properties",
     description:
-      "Find verified plots, flats, villas, row houses & commercial properties in Bhopal with Easy Colonizer.",
+      "Find verified plots, flats, villas, row houses & commercial properties with Easy Colonizer.",
     keywords:
-      "Bhopal properties, plots in Bhopal, villas, flats, real estate, Easy Colonizer",
+      "properties, plots, villas, flats, real estate, Easy Colonizer",
   },
 };
 

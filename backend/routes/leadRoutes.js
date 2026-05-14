@@ -28,7 +28,15 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const lead = new Lead(req.body);
+    // Check if tenant is populated by middleware
+    if (!req.tenant) {
+      return res.status(400).json({ message: "Tenant identification failed" });
+    }
+
+    const lead = new Lead({
+      ...req.body,
+      tenantId: req.tenant._id,
+    });
     const saved = await lead.save();
     res.status(201).json(saved);
   } catch (err) {

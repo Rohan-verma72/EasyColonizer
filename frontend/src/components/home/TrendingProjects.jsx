@@ -17,7 +17,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import api from "../../utils/api";
 import "../../styles/components/home/TrendingProjects.css";
 
 const TrendingProjects = () => {
@@ -28,7 +28,7 @@ const TrendingProjects = () => {
     const fetchProjects = async () => {
       try {
         setLoading(true);
-        const res = await axios.get("/api/properties");
+        const res = await api.get("/api/properties");
         const data = Array.isArray(res.data) ? res.data : [];
         setProjects(data.slice(0, 4));
       } catch (err) {
